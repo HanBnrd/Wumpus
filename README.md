@@ -1,0 +1,2 @@
+# Wumpus
+Intelligent agent game
