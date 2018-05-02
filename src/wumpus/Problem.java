@@ -1,61 +1,55 @@
 package wumpus;
 
 public class Problem {
-	protected String[] actions = {"up", "down", "right", "left", "shootUp", "shootDown", "shootRight", "shootLeft"};
-
-	public String[] getActions() {
-		return this.actions;
-	}
 	
-	public State transition(State state,String act) {
+	public State transition(State state, Actions act) {
 		State next = new State(state);
-		// Shoot
-		if (act == "shootUp") {
+		switch(act) {
+		case ShootUp:
 			if (next.wumpus[0] == next.hero[0] && next.wumpus[1]>next.hero[1]) {
 				next.wumpus = null;
 			}
 			next.arrow = false;
-		}
-		else if (act == "shootDown") {
+			break;
+		case ShootDown:
 			if (next.wumpus[0] == next.hero[0] && next.wumpus[1]<next.hero[1]) {
 				next.wumpus = null;
 			}
 			next.arrow = false;
-		}
-		else if (act == "shootRight") {
+			break;
+		case ShootRight:
 			if (next.wumpus[1] == next.hero[1] && next.wumpus[0]>next.hero[0]) {
 				next.wumpus = null;
 			}
 			next.arrow = false;
-		}
-		else if (act == "shootLeft") {
+			break;
+		case ShootLeft:
 			if (next.wumpus[1] == next.hero[1] && next.wumpus[0]<next.hero[0]) {
 				next.wumpus = null;
 			}
 			next.arrow = false;
-		}
-		// Movement
-		else if (act == "up") {
+			break;
+		case Up:
 			if (next.hero[1] < 4) {
 				next.hero[1] += 1;
 			}
-		}
-		else if (act == "down") {
+			break;
+		case Down:
 			if (next.hero[1] > 0) {
 				next.hero[1] -= 1;
 			}
-		}
-		else if (act == "right") {
+			break;
+		case Right:
 			if (next.hero[0] < 4) {
 				next.hero[0] += 1;
 			}
-		}
-		else if (act == "left") {
+			break;
+		case Left:
 			if (next.hero[0] > 0) {
 				next.hero[0] -= 1;
 			}
+			break;
 		}
 		return next;
 	}
-
 }
