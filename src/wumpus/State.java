@@ -1,10 +1,11 @@
+package wumpus;
 
 public class State {
-	int holes[][] = new int[3][2];
-	int treasure[] = new int[2];
-	int wumpus[] = new int[2];
-	int hero[] = new int[2];
-	boolean arrow;
+	protected int holes[][] = new int[2][2];
+	protected int treasure[] = new int[2];
+	protected int wumpus[] = new int[2];
+	protected int hero[] = new int[2];
+	protected boolean arrow;
 	
 	public State(int holes[][], int treasure[], int wumpus[], int hero[], boolean arrow) {
 		this.holes = holes;
@@ -14,9 +15,12 @@ public class State {
 		this.arrow = true;
 	}
 	
-	public State copy() {
-		State copy = new State(this.holes, this.treasure, this.wumpus, this.hero, this.arrow);
-		return copy;
+	public State(State s) {
+		this.holes = s.holes;
+		this.treasure = s.treasure;
+		this.wumpus = s.wumpus;
+		this.hero = s.hero.clone();
+		this.arrow = s.arrow;
 	}
 	
 	public boolean isFinal() {
@@ -28,7 +32,7 @@ public class State {
 			end = true ;
 		}
 		else {
-			for (int i = 0; i <3; i++) {
+			for (int i = 0; i < this.holes.length ; i++) {
 				if (this.hero == this.holes[i]) {
 					end = true;
 				}
