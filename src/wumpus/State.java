@@ -1,17 +1,38 @@
 package wumpus;
 
+import java.util.Random;
+
 public class State {
-	protected int holes[][] = new int[2][2];
-	protected int treasure[] = new int[2];
-	protected int wumpus[] = new int[2];
-	protected int hero[] = new int[2];
+	protected int holes[][];
+	protected int treasure[];
+	protected int wumpus[];
+	protected int hero[];
 	protected boolean arrow;
 	
-	public State(int holes[][], int treasure[], int wumpus[], int hero[], boolean arrow) {
-		this.holes = holes;
-		this.treasure = treasure;
-		this.wumpus = wumpus;
-		this.hero = hero;
+	public State() {
+		Random rnd = new Random();
+		do {
+			this.treasure[0] = rnd.nextInt(3);
+			this.treasure[1] = rnd.nextInt(3);
+		} while (treasure[0] == 0 && treasure[1] == 0);
+		do {
+			this.holes[0][0] = rnd.nextInt(3);
+			this.holes[0][1] = rnd.nextInt(3);
+		} while ((holes[0][0] == 0 && holes[0][1] == 0) ||
+				(holes[0][0] == treasure[0] && holes[0][1] == treasure[1]));
+		do {
+			this.holes[1][0] = rnd.nextInt(3);
+			this.holes[1][1] = rnd.nextInt(3);
+		} while ((holes[1][0] == 0 && holes[1][1] == 0) ||
+				(holes[1][0] == treasure[0] && holes[1][1] == treasure[1]) ||
+				(holes[1][0] == holes[0][0] && holes[1][1] == holes[0][1]));
+		do {
+			this.wumpus[0] = rnd.nextInt(3);
+			this.wumpus[1] = rnd.nextInt(3);
+		} while ((wumpus[0] == 0 && wumpus[1] == 0) ||
+				(wumpus[0] == treasure[0] && wumpus[1] == treasure[1]) ||
+				(wumpus[0] == holes[0][0] && wumpus[1] == holes[0][1]) ||
+				(wumpus[0] == holes[1][0] && wumpus[1] == holes[1][1]));
 		this.arrow = true;
 	}
 	
