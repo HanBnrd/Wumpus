@@ -1,3 +1,4 @@
+package wumpus;
 
 public enum ModelValues {
 	NotVisited,
