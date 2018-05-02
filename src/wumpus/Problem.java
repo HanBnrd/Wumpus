@@ -1,13 +1,14 @@
+package wumpus;
 
 public class Problem {
-	String[] actions = {"up", "down", "right", "left", "shootUp", "shootDown", "shootRight", "shootLeft"};
+	protected String[] actions = {"up", "down", "right", "left", "shootUp", "shootDown", "shootRight", "shootLeft"};
 
 	public String[] getActions() {
 		return this.actions;
 	}
 	
 	public State transition(State state,String act) {
-		State next = state.copy();
+		State next = new State(state);
 		// Shoot
 		if (act == "shootUp") {
 			if (next.wumpus[0] == next.hero[0] && next.wumpus[1]>next.hero[1]) {
