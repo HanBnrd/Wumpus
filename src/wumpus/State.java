@@ -3,60 +3,99 @@ package wumpus;
 import java.util.Random;
 
 public class State {
-	protected int holes[][];
-	protected int treasure[];
-	protected int wumpus[];
-	protected int hero[];
+	protected int hero[], wumpus[], hole1[], hole2[], treasure[];
 	protected boolean arrow;
+	protected Observation obs;
 	
+	/**
+	 * Default, first state
+	 */
 	public State() {
-		Random rnd = new Random();
+		hero = new int[2]; // (0;0)
+		treasure = new int[2];
+		hole1 = new int[2];
+		hole2 = new int[2];
+		wumpus = new int[2];
+		
+		Random rnd = new Random(/*System.currentTimeMillis()*/);
 		do {
-			this.treasure[0] = rnd.nextInt(3);
-			this.treasure[1] = rnd.nextInt(3);
+			treasure[0] = rnd.nextInt(3);
+			treasure[1] = rnd.nextInt(3);
 		} while (treasure[0] == 0 && treasure[1] == 0);
+		
 		do {
-			this.holes[0][0] = rnd.nextInt(3);
-			this.holes[0][1] = rnd.nextInt(3);
-		} while ((holes[0][0] == 0 && holes[0][1] == 0) ||
-				(holes[0][0] == treasure[0] && holes[0][1] == treasure[1]));
+			hole1[0] = rnd.nextInt(3);
+			hole1[1] = rnd.nextInt(3);
+		} while ((hole1[0] == 0 && hole1[1] == 0) ||
+				(hole1[0] == treasure[0] && hole1[1] == treasure[1]));
+		
 		do {
-			this.holes[1][0] = rnd.nextInt(3);
-			this.holes[1][1] = rnd.nextInt(3);
-		} while ((holes[1][0] == 0 && holes[1][1] == 0) ||
-				(holes[1][0] == treasure[0] && holes[1][1] == treasure[1]) ||
-				(holes[1][0] == holes[0][0] && holes[1][1] == holes[0][1]));
+			hole2[0] = rnd.nextInt(3);
+			hole2[1] = rnd.nextInt(3);
+		} while ((hole2[0] == 0 && hole2[1] == 0) ||
+				(hole2[0] == treasure[0] && hole2[1] == treasure[1]) ||
+				(hole2[0] == hole1[0] && hole2[1] == hole1[1]));
+		
 		do {
-			this.wumpus[0] = rnd.nextInt(3);
-			this.wumpus[1] = rnd.nextInt(3);
+			wumpus[0] = rnd.nextInt(3);
+			wumpus[1] = rnd.nextInt(3);
 		} while ((wumpus[0] == 0 && wumpus[1] == 0) ||
 				(wumpus[0] == treasure[0] && wumpus[1] == treasure[1]) ||
-				(wumpus[0] == holes[0][0] && wumpus[1] == holes[0][1]) ||
-				(wumpus[0] == holes[1][0] && wumpus[1] == holes[1][1]));
+				(wumpus[0] == hole1[0] && wumpus[1] == hole1[1]) ||
+				(wumpus[0] == hole2[0] && wumpus[1] == hole2[1]));
+		
 		this.arrow = true;
 	}
 	
+	/******* Getters - setters *******/
+	public int[] getHero() {
+		return hero;
+	}
+
+	public void setHero(int[] hero) {
+		this.hero = hero;
+	}
+
+	public boolean arrow() {
+		return arrow;
+	}
+
+	public void useArrow() {
+		this.arrow = false;
+	}
+
+	/**
+	 * Copy constructor
+	 * @param s the state to copy
+	 */
 	public State(State s) {
-		this.holes = s.holes;
+		this.hole1 = s.hole1;
+		this.hole2 = s.hole2;
 		this.treasure = s.treasure;
 		this.wumpus = s.wumpus;
 		this.hero = s.hero.clone();
 		this.arrow = s.arrow;
 	}
 	
+	public Observation makeObservation() {
+		return new Observation(this);
+	}
+	
+	/**
+	 * Checks if the state is final or not
+	 * @return true if the hero is dead or if he has found the treasure, false otherwise
+	 */
 	public boolean isFinal() {
 		boolean end = false;
-		if (this.hero == this.treasure) {
-			end = true ;
+		if (hero == treasure) {
+			end = true;
 		}
 		else if (hero == wumpus) {
-			end = true ;
+			end = true;
 		}
 		else {
-			for (int i = 0; i < this.holes.length ; i++) {
-				if (this.hero == this.holes[i]) {
-					end = true;
-				}
+			if (hero == hole1 || hero == hole2) {
+				end = true;
 			}
 		}
 		return end;

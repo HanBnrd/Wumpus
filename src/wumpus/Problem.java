@@ -2,6 +2,12 @@ package wumpus;
 
 public class Problem {
 	
+	/**
+	 * Makes a new state considering one action
+	 * @param state the origin state
+	 * @param act the action done
+	 * @return a new state with a modification of the concerned attributes
+	 */
 	public State transition(State state, Actions act) {
 		State next = new State(state);
 		switch(act) {

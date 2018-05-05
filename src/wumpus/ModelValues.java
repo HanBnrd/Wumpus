@@ -1,11 +1,11 @@
 package wumpus;
 
 public enum ModelValues {
-	NotVisited,
+	Unknown,
 	Safe,
-	MaybeWumpus,
-	MaybeHole,
-	MaybeWumpusOrHole,
+	MaybeW,
+	MaybeH,
+	MaybeWH,
 	Wumpus,
 	Hole;
 }
