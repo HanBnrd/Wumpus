@@ -42,7 +42,6 @@ public class Algo {
 		while (!end) {
 			State currentState = toVisit.poll();
 			time ++;
-			System.out.println(toString());
 			Observation obs = currentState.makeObservation();
 			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
 			updateModel(obs);
@@ -101,38 +100,32 @@ public class Algo {
 	 * @param posY the cell ordinate
 	 * @return the accurate value
 	 */
-	protected ModelValues chooseModelValue(Observation o, int posX, int posY) {
+	protected void chooseModelValue(Observation o, int posX, int posY) {
 		// Definitive values
-		if(model[posX][posY] == ModelValues.Safe) {
-			return ModelValues.Safe;
-		}
-		if(model[posX][posY] == ModelValues.Wumpus) {
-			return ModelValues.Wumpus;
-		}
-		if(model[posX][posY] == ModelValues.Hole) {
-			return ModelValues.Hole;
-		}
+		if(model[posX][posY] != ModelValues.Safe && 
+		   model[posX][posY] != ModelValues.Wumpus &&
+		   model[posX][posY] != ModelValues.Hole) {
 		
-		boolean[] results = o.getObservations();
-			
-		if(results[0] && results[1]) {
-			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-				clearMaybeWumpus();
-				return ModelValues.Wumpus;
+			boolean[] results = o.getObservations();
+				
+			if(results[0] && results[1]) {
+				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+					clearMaybeWumpus();
+					model[posX][posY] = ModelValues.Wumpus;
+				}
+				model[posX][posY] = ModelValues.MaybeWH;
+			} else if(results[0]) {
+				model[posX][posY] = ModelValues.MaybeH;
+			} else if(results[1]) {
+				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+					clearMaybeWumpus();
+					model[posX][posY] = ModelValues.Wumpus;
+				}
+				model[posX][posY] = ModelValues.MaybeW;
+			} else {
+				model[posX][posY] = ModelValues.Safe;
 			}
-			return ModelValues.MaybeWH;
 		}
-		if(results[0]) {
-			return ModelValues.MaybeH;
-		}
-		if(results[1]) {
-			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-				clearMaybeWumpus();
-				return ModelValues.Wumpus;
-			}
-			return ModelValues.MaybeW;
-		}
-		return ModelValues.Safe;
 	}
 
 	/**
@@ -141,21 +134,23 @@ public class Algo {
 	 */
 	protected void updateModel(Observation o) {
 		int[] hPos = o.getHeroPosition();
+		System.out.println(hPos[0]+" "+hPos[1]);
+		model[hPos[0]][hPos[1]] = ModelValues.Safe;
 
 		if(hPos[0] > 0) {
-			model[hPos[0]-1][hPos[1]] = chooseModelValue(o, hPos[0]-1, hPos[1]);
+			chooseModelValue(o, hPos[0]-1, hPos[1]);
 		}
 
 		if(hPos[0] < getGSize()-1) {
-			model[hPos[0]+1][hPos[1]] = chooseModelValue(o, hPos[0]+1, hPos[1]);
+			chooseModelValue(o, hPos[0]+1, hPos[1]);
 		}
 
 		if(hPos[1] > 0) {
-			model[hPos[0]][hPos[1]-1] = chooseModelValue(o, hPos[0], hPos[1]-1);
+			chooseModelValue(o, hPos[0], hPos[1]-1);
 		}
 
 		if(hPos[1] < getGSize()-1) {
-			model[hPos[0]][hPos[1]+1] = chooseModelValue(o, hPos[0], hPos[1]+1);
+			chooseModelValue(o, hPos[0], hPos[1]+1);
 		}
 	}
 	
