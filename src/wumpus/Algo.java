@@ -212,7 +212,7 @@ public class Algo {
 			cost = 20;
 			break;
 		default:
-			cost = 999; //Death
+			cost = 666; //Death
 			break;
 		}
 		newState.setCost(cost);

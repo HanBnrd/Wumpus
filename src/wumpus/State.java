@@ -57,6 +57,22 @@ public class State {
 	public void setHero(int[] hero) {
 		this.hero = hero;
 	}
+	
+	protected int[] getWumpus() {
+		return wumpus;
+	}
+	
+	protected int[] getHole1() {
+		return hole1;
+	}
+	
+	protected int[] getHole2() {
+		return hole2;
+	}
+	
+	protected int[] getTreasure() {
+		return treasure;
+	}
 
 	public boolean arrow() {
 		return arrow;
@@ -97,19 +113,16 @@ public class State {
 	 * Checks if the state is final or not
 	 * @return true if the hero is dead or if he has found the treasure, false otherwise
 	 */
-	public boolean isFinal() {
-		boolean end = false;
-		if (hero == treasure) {
-			end = true;
-		}
-		else if (hero == wumpus) {
-			end = true;
-		}
-		else {
-			if (hero == hole1 || hero == hole2) {
-				end = true;
-			}
-		}
-		return end;
+	public boolean isWumpus() {
+		return getHero()[0] == getWumpus()[0] && getHero()[1] == getWumpus()[1];
+	}
+	
+	public boolean isHole() {
+		return (getHero()[0] == getHole1()[0] && getHero()[1] == getHole1()[1]) ||
+			   (getHero()[0] == getHole2()[0] && getHero()[1] == getHole2()[1]);
+	}
+	
+	public boolean isTreasure() {
+		return getHero()[0] == getTreasure()[0] && getHero()[1] == getTreasure()[1];
 	}
 }
