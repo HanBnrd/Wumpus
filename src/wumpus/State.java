@@ -56,8 +56,9 @@ public class State {
 		return hero;
 	}
 
-	public void setHero(int[] hero) {
-		this.hero = hero;
+	public void setHero(int x, int y) {
+		this.hero[0] = x;
+		this.hero[1] = y;
 	}
 	
 	protected int[] getWumpus() {

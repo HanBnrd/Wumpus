@@ -8,6 +8,7 @@ public class Algo {
 	protected ModelValues[][] model;
 	protected boolean[][] visited;
 	protected int gridSize;
+	protected PriorityQueue<State> toVisit;
 
 	/**
 	 * Algo constructor
@@ -26,6 +27,8 @@ public class Algo {
 		model[0][0] = ModelValues.Safe;
 
 		visited = new boolean[4][4]; // False by default
+
+		toVisit = new PriorityQueue<State>(new StateComparator());
 	}
 
 	/**
@@ -36,7 +39,6 @@ public class Algo {
 		boolean end = false;
 		int time = 0;
 		String gameover = null;
-		PriorityQueue<State> toVisit = new PriorityQueue<State>(new StateComparator());
 		toVisit.add(init);
 
 		while (!end) {
@@ -83,13 +85,21 @@ public class Algo {
 		return this.gridSize;
 	}
 	
-	protected void clearMaybeWumpus() {
+	protected void clearMaybeWumpus(State currentState) {
 		for (int i = 0; i < gridSize; i=i+1) {
 			for (int j = 0; j < gridSize; j=j+1) {
 				if(model[i][j] == ModelValues.MaybeW) {
 					model[i][j] = ModelValues.Safe;
+					State safeState = new State(currentState);
+					safeState.setHero(i, j);
+					setCost(safeState);
+					toVisit.add(safeState);
 				} else if (model[i][j] == ModelValues.MaybeWH) {
 					model[i][j] = ModelValues.MaybeH;
+					State maybeSafeState = new State(currentState);
+					maybeSafeState.setHero(i, j);
+					setCost(maybeSafeState);
+					toVisit.add(maybeSafeState);
 				}
 			}
 		}
@@ -112,7 +122,7 @@ public class Algo {
 			if(results[0] && results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
 					model[posX][posY] = ModelValues.Wumpus;
-					clearMaybeWumpus();
+					clearMaybeWumpus(o.getState());
 				} else {
 					model[posX][posY] = ModelValues.MaybeWH;
 				}
@@ -121,7 +131,7 @@ public class Algo {
 			} else if(results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
 					model[posX][posY] = ModelValues.Wumpus;
-					clearMaybeWumpus();
+					clearMaybeWumpus(o.getState());
 				} else {
 					model[posX][posY] = ModelValues.MaybeW;
 				}

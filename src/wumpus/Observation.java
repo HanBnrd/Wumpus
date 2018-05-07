@@ -4,12 +4,14 @@ public class Observation {
 	protected boolean air;
 	protected boolean smell;
 	protected int[] heroPosition;
+	protected State state;
 	
 	/**
 	 * Main Observation constructor
 	 * @param s the state related to this observation
 	 */
 	public Observation(State s) {
+		state = s;
 		if ((s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]+1) ||
 			(s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]-1) ||
 			(s.hero[0] == s.wumpus[0]+1 && s.hero[1] == s.wumpus[1]) ||
@@ -41,6 +43,10 @@ public class Observation {
 	 */
 	public int[] getHeroPosition() {
 		return heroPosition;
+	}
+	
+	public State getState() {
+		return state;
 	}
 	
 	/**
