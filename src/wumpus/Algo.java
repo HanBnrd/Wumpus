@@ -43,9 +43,6 @@ public class Algo {
 			State currentState = toVisit.poll();
 			System.out.println("Hero position :(" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
 			time ++;
-			Observation obs = currentState.makeObservation();
-			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
-			updateModel(obs);
 
 			if (currentState.isTreasure()) {
 				gameover = "Treasure";
@@ -61,6 +58,9 @@ public class Algo {
 			}
 			else {
 				// Safe moves
+				Observation obs = currentState.makeObservation();
+				setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
+				updateModel(obs);
 				for (Actions act : Actions.values()) {
 					State next = pb.transition(currentState, act);
 					if (visited[next.hero[0]][next.hero[1]] == false) {

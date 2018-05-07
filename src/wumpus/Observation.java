@@ -10,10 +10,10 @@ public class Observation {
 	 * @param s the state related to this observation
 	 */
 	public Observation(State s) {
-		if ((s.hero[0] == s.wumpus[0] && s.hero[1] == s.hero[1]+1) ||
-			(s.hero[0] == s.wumpus[0] && s.hero[1] == s.hero[1]-1) ||
-			(s.hero[0] == s.wumpus[0]+1 && s.hero[1] == s.hero[1]) ||
-			(s.hero[0] == s.wumpus[0]-1 && s.hero[1] == s.hero[1])) {
+		if ((s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]+1) ||
+			(s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]-1) ||
+			(s.hero[0] == s.wumpus[0]+1 && s.hero[1] == s.wumpus[1]) ||
+			(s.hero[0] == s.wumpus[0]-1 && s.hero[1] == s.wumpus[1])) {
 			this.smell = true;
 		}
 		else {
@@ -23,10 +23,10 @@ public class Observation {
 			(s.hero[0] == s.hole1[0]   && s.hero[1] == s.hole1[1]-1) ||
 			(s.hero[0] == s.hole1[0]+1 && s.hero[1] == s.hole1[1]  ) ||
 			(s.hero[0] == s.hole1[0]-1 && s.hero[1] == s.hole1[1]  ) ||
-			(s.hero[0] == s.hole2[1]   && s.hero[1] == s.hole2[1]+1) ||
-			(s.hero[0] == s.hole2[1]   && s.hero[1] == s.hole2[1]-1) ||
-			(s.hero[0] == s.hole2[1]+1 && s.hero[1] == s.hole2[1]  ) ||
-			(s.hero[0] == s.hole2[1]-1 && s.hero[1] == s.hole2[1]  )) {
+			(s.hero[0] == s.hole2[0]   && s.hero[1] == s.hole2[1]+1) ||
+			(s.hero[0] == s.hole2[0]   && s.hero[1] == s.hole2[1]-1) ||
+			(s.hero[0] == s.hole2[0]+1 && s.hero[1] == s.hole2[1]  ) ||
+			(s.hero[0] == s.hole2[0]-1 && s.hero[1] == s.hole2[1]  )) {
 			this.air = true;
 		}
 		else {
