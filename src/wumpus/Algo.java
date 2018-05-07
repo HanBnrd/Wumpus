@@ -126,6 +126,18 @@ public class Algo {
 	public int getGSize() {
 		return this.gridSize;
 	}
+	
+	protected void clearMaybeWumpus() {
+		for (int i = 0; i < gridSize; i=i+1) {
+			for (int j = 0; j < gridSize; j=j+1) {
+				if(model[i][j] == ModelValues.MaybeW) {
+					model[i][j] = ModelValues.Safe;
+				} else if (model[i][j] == ModelValues.MaybeWH) {
+					model[i][j] = ModelValues.MaybeH;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Choose the right value to put in one cell of the model, considering the new observations
@@ -150,6 +162,7 @@ public class Algo {
 			
 		if(results[0] && results[1]) {
 			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+				clearMaybeWumpus();
 				return ModelValues.Wumpus;
 			}
 			return ModelValues.MaybeWH;
@@ -159,6 +172,7 @@ public class Algo {
 		}
 		if(results[1]) {
 			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+				clearMaybeWumpus();
 				return ModelValues.Wumpus;
 			}
 			return ModelValues.MaybeW;
