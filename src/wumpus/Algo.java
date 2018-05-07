@@ -1,9 +1,7 @@
 package wumpus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.PriorityQueue;
 
 
 public class Algo {
@@ -35,88 +33,47 @@ public class Algo {
 	 * Main method of the Algo class
 	 * @return
 	 */
-	public ArrayList<Actions> run(Problem pb, State init) {
+	public String run(Problem pb, State init) {
 		boolean end = false;
-		// TODO : map pas forcément utile...
-		// TODO : à voir ce qu'on return
-		Map<State, ArrayList<Actions>> dict = new HashMap<State, ArrayList<Actions>>();
-		LinkedList<State> stack = new LinkedList<>();
-		ArrayList<Actions> initPath = new ArrayList<Actions>();
+		int time;
+		String gameover;
+		PriorityQueue<State> toVisit = new PriorityQueue<State>(new StateComparator());
+		toVisit.add(init);
 		State finalState = null;
 
-		dict.put(init, initPath);
-		stack.add(init);
-
 		while (!end) {
-			State currentState = stack.pop();
-			System.out.println(currentState); // TODO
-
+			State currentState = toVisit.poll();
+			time ++;
+			System.out.println(toString());
 			Observation obs = currentState.makeObservation();
 			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
 			updateModel(obs);
 
-			if (currentState.isFinal()) {
-				finalState = currentState;
+			if (currentState.isTreasure()) {
+				gameover = "Treasure";
+				end = true;
+			}
+			else if (currentState.isWumpus()) {
+				gameover = "Wumpus";
+				end = true;
+			}
+			else if (currentState.isHole()) {
+				gameover = "Hole";
 				end = true;
 			}
 			else {
 				// Safe moves
-				boolean anyNextSafeNotVisited = false;
 				for (Actions act : Actions.values()) {
 					State next = pb.transition(currentState, act);
-					if (model[next.hero[0]][next.hero[1]] == ModelValues.Safe &&
-					visited[next.hero[0]][next.hero[1]] == false) {
-						ArrayList<Actions> currentPath = new ArrayList<Actions>(dict.get(currentState));
-						currentPath.add(act);
-						dict.put(next,currentPath);
-						stack.add(next);
-						anyNextSafeNotVisited = true;
+					if (visited[next.hero[0]][next.hero[1]] == false) {
+						this.setCost(next);
+						toVisit.add(next);
 					}
 				}
-				if (anyNextSafeNotVisited == false && stack.isEmpty() == false) {
-				// TODO : attention ne marche que si on rebrousse chemin d'une case
-				// TODO : il faudrait gérer le fait de vraiment se déplacer vers la case cible
-					for (Actions act : Actions.values()) {
-						State next = pb.transition(currentState, act);
-						if (model[next.hero[0]][next.hero[1]] == ModelValues.Safe) {
-							ArrayList<Actions> currentPath = new ArrayList<Actions>(dict.get(currentState));
-							currentPath.add(act);
-							dict.put(next,currentPath);
-							stack.add(next);
-						}
-					}
-				}
-				else {
-					// Risky moves
-					boolean anyRisky = false;
-					for (Actions act : Actions.values()) {
-						State next = pb.transition(currentState, act);
-						if (model[next.hero[0]][next.hero[1]] == ModelValues.MaybeW ||
-						model[next.hero[0]][next.hero[1]] == ModelValues.MaybeH ||
-						model[next.hero[0]][next.hero[1]] == ModelValues.MaybeWH) {
-						// TODO : peut-être ordonner le choix des maybe (W > H > WH) ?
-							ArrayList<Actions> currentPath = new ArrayList<Actions>(dict.get(currentState));
-							currentPath.add(act);
-							dict.put(next,currentPath);
-							stack.add(next);
-							anyRisky = true;
-						}
-					}
-					// TODO : cas où on rebrousse chemin mais qu'on est finalement bloqué
-					// TODO : il faudrait rerebrousser chemin pour voir si il y avait des maybe ?
-					if (anyRisky == false && ) {
-
-					}
-					// Only game over moves left
-					else {
-						end = true;
-					}
-				}
-
 			}
 		}
-		return dict.get(finalState);
-
+		String game = gameover + time;
+		return game;
 	}
 
 	/**
