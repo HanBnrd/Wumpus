@@ -36,7 +36,7 @@ public class Problem {
 			next.useArrow();
 			break;
 		case Up:
-			if (next.hero[1] < 4) {
+			if (next.hero[1] < 3) {
 				next.hero[1] += 1;
 			}
 			break;
@@ -46,7 +46,7 @@ public class Problem {
 			}
 			break;
 		case Right:
-			if (next.hero[0] < 4) {
+			if (next.hero[0] < 3) {
 				next.hero[0] += 1;
 			}
 			break;
