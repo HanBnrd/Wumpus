@@ -83,6 +83,18 @@ public class Algo {
 	public int getGSize() {
 		return this.gridSize;
 	}
+	
+	protected void clearMaybeWumpus() {
+		for (int i = 0; i < gridSize; i=i+1) {
+			for (int j = 0; j < gridSize; j=j+1) {
+				if(model[i][j] == ModelValues.MaybeW) {
+					model[i][j] = ModelValues.Safe;
+				} else if (model[i][j] == ModelValues.MaybeWH) {
+					model[i][j] = ModelValues.MaybeH;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Choose the right value to put in one cell of the model, considering the new observations
@@ -92,13 +104,22 @@ public class Algo {
 	 * @return the accurate value
 	 */
 	protected ModelValues chooseModelValue(Observation o, int posX, int posY) {
+		// Definitive values
 		if(model[posX][posY] == ModelValues.Safe) {
 			return ModelValues.Safe;
 		}
+		if(model[posX][posY] == ModelValues.Wumpus) {
+			return ModelValues.Wumpus;
+		}
+		if(model[posX][posY] == ModelValues.Hole) {
+			return ModelValues.Hole;
+		}
 		
 		boolean[] results = o.getObservations();
+			
 		if(results[0] && results[1]) {
 			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+				clearMaybeWumpus();
 				return ModelValues.Wumpus;
 			}
 			return ModelValues.MaybeWH;
@@ -108,6 +129,7 @@ public class Algo {
 		}
 		if(results[1]) {
 			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+				clearMaybeWumpus();
 				return ModelValues.Wumpus;
 			}
 			return ModelValues.MaybeW;
@@ -137,6 +159,34 @@ public class Algo {
 		if(hPos[1] < getGSize()-1) {
 			model[hPos[0]][hPos[1]+1] = chooseModelValue(o, hPos[0], hPos[1]+1);
 		}
+	}
+	
+	/**
+	 * Set the cost of a new state with respect to the model
+	 * @param newState the new state
+	 */
+	protected void setCost(State newState) {
+		int cost = 999;
+		int [] posHero = newState.getHero();
+		ModelValues mv = model[posHero[0]][posHero[1]];
+		switch (mv) {
+		case Safe:
+			cost = 1;
+			break;
+		case MaybeW:
+			cost = 5;
+			break;
+		case MaybeH:
+			cost = 10;
+			break;
+		case MaybeWH:
+			cost = 20;
+			break;
+		default:
+			cost = 666; //Death
+			break;
+		}
+		newState.setCost(cost);
 	}
 
 	/**
