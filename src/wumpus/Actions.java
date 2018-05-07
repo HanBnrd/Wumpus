@@ -5,8 +5,9 @@ public enum Actions {
 	Down,
 	Right,
 	Left,
-	ShootUp,
-	ShootDown,
-	ShootRight,
-	ShootLeft;
+	Shoot,
+//	ShootUp,
+//	ShootDown,
+//	ShootRight,
+//	ShootLeft;
 }

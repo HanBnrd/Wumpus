@@ -11,30 +11,32 @@ public class Problem {
 	public State transition(State state, Actions act) {
 		State next = new State(state);
 		switch(act) {
-		case ShootUp:
-			if (next.wumpus[0] == next.hero[0] && next.wumpus[1]>next.hero[1]) {
-				next.wumpus = null;
-			}
-			next.useArrow();
-			break;
-		case ShootDown:
-			if (next.wumpus[0] == next.hero[0] && next.wumpus[1]<next.hero[1]) {
-				next.wumpus = null;
-			}
-			next.useArrow();
-			break;
-		case ShootRight:
-			if (next.wumpus[1] == next.hero[1] && next.wumpus[0]>next.hero[0]) {
-				next.wumpus = null;
-			}
-			next.useArrow();
-			break;
-		case ShootLeft:
-			if (next.wumpus[1] == next.hero[1] && next.wumpus[0]<next.hero[0]) {
-				next.wumpus = null;
-			}
-			next.useArrow();
-			break;
+		case Shoot:
+			next.wumpus = null;
+//		case ShootUp:
+//			if (next.wumpus != null && next.wumpus[0] == next.hero[0] && next.wumpus[1]>next.hero[1]) {
+//				next.wumpus = null;
+//			}
+//			next.useArrow();
+//			break;
+//		case ShootDown:
+//			if (next.wumpus != null && next.wumpus[0] == next.hero[0] && next.wumpus[1]<next.hero[1]) {
+//				next.wumpus = null;
+//			}
+//			next.useArrow();
+//			break;
+//		case ShootRight:
+//			if (next.wumpus != null && next.wumpus[1] == next.hero[1] && next.wumpus[0]>next.hero[0]) {
+//				next.wumpus = null;
+//			}
+//			next.useArrow();
+//			break;
+//		case ShootLeft:
+//			if (next.wumpus != null && next.wumpus[1] == next.hero[1] && next.wumpus[0]<next.hero[0]) {
+//				next.wumpus = null;
+//			}
+//			next.useArrow();
+//			break;
 		case Up:
 			if (next.hero[1] < 3) {
 				next.hero[1] += 1;
