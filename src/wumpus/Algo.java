@@ -54,21 +54,45 @@ public class Algo {
 	 * @return the accurate value
 	 */
 	protected ModelValues chooseModelValue(Observation o, int posX, int posY) {
+		// Definitive values
 		if(model[posX][posY] == ModelValues.Safe) {
 			return ModelValues.Safe;
 		}
+		if(model[posX][posY] == ModelValues.Wumpus) {
+			return ModelValues.Wumpus;
+		}
+		if(model[posX][posY] == ModelValues.Hole) {
+			return ModelValues.Hole;
+		}
 		
 		boolean[] results = o.getObservations();
-		if(results[0] && results[1]) {
-			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-				return ModelValues.Wumpus;
+		if(results[0] || results[1]) {
+			boolean corner = false;
+			int[] heroPos = o.getHeroPosition();
+			//if the hero is in one corner
+			if((heroPos[0] == 0 && heroPos[1] == 0) ||
+			   (heroPos[0] == 0 && heroPos[1] == getGSize()-1) ||
+			   (heroPos[0] == getGSize()-1 && heroPos[1] == 0) ||
+			   (heroPos[0] == getGSize()-1 && heroPos[1] == getGSize()-1)) {
+				corner = true;
 			}
-			return ModelValues.MaybeWH;
-		}
-		if(results[0]) {
-			return ModelValues.MaybeH;
-		}
-		if(results[1]) {
+			
+			if(results[0] && results[1]) {
+				if(corner) {
+					return ModelValues.WOrH;
+				}
+				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+					return ModelValues.Wumpus;
+				}
+				return ModelValues.MaybeWH;
+			}
+			if(results[0]) {
+				if(corner) {
+					//todo
+				}
+				return ModelValues.MaybeH;
+			}
+			//results[1] = true
 			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
 				return ModelValues.Wumpus;
 			}
