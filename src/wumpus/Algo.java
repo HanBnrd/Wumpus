@@ -1,6 +1,5 @@
 package wumpus;
 
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 
@@ -35,11 +34,10 @@ public class Algo {
 	 */
 	public String run(Problem pb, State init) {
 		boolean end = false;
-		int time;
-		String gameover;
+		int time = 0;
+		String gameover = null;
 		PriorityQueue<State> toVisit = new PriorityQueue<State>(new StateComparator());
 		toVisit.add(init);
-		State finalState = null;
 
 		while (!end) {
 			State currentState = toVisit.poll();
