@@ -117,7 +117,7 @@ public class State {
 	 * @return true if the hero is dead or if he has found the treasure, false otherwise
 	 */
 	public boolean isWumpus() {
-		return getHero()[0] == getWumpus()[0] && getHero()[1] == getWumpus()[1];
+		return getWumpus() != null && getHero()[0] == getWumpus()[0] && getHero()[1] == getWumpus()[1];
 	}
 	
 	public boolean isHole() {
