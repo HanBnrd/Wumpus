@@ -12,7 +12,9 @@ public class State {
 	 * Default, first state
 	 */
 	public State() {
-		hero = new int[2]; // (0;0)
+		hero = new int[2];
+		hero[0] = 0;
+		hero[1] = 0;
 		treasure = new int[2];
 		hole1 = new int[2];
 		hole2 = new int[2];
@@ -124,5 +126,16 @@ public class State {
 	
 	public boolean isTreasure() {
 		return getHero()[0] == getTreasure()[0] && getHero()[1] == getTreasure()[1];
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("State :\n");
+		sb.append("Hole 1 : ("+ getHole1()[0]+","+getHole1()[1]+")\n");
+		sb.append("Hole 2 : ("+ getHole2()[0]+","+getHole2()[1]+")\n");
+		sb.append("Wumpus : ("+ getWumpus()[0]+","+getWumpus()[1]+")\n");
+		sb.append("Treasure : ("+ getTreasure()[0]+","+getTreasure()[1]+")\n");
+		sb.append("Hero : ("+getHero()[0]+","+getHero()[1]+")");
+		return sb.toString();
 	}
 }

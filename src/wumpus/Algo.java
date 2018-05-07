@@ -41,6 +41,7 @@ public class Algo {
 
 		while (!end) {
 			State currentState = toVisit.poll();
+			System.out.println("Hero position :" + currentState.getHero()[0]+" "+currentState.getHero()[1]);
 			time ++;
 			Observation obs = currentState.makeObservation();
 			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
@@ -68,6 +69,7 @@ public class Algo {
 					}
 				}
 			}
+			System.out.println(toString());
 		}
 		String game = gameover + time;
 		return game;
@@ -101,7 +103,6 @@ public class Algo {
 	 * @return the accurate value
 	 */
 	protected void chooseModelValue(Observation o, int posX, int posY) {
-		// Definitive values
 		if(model[posX][posY] != ModelValues.Safe && 
 		   model[posX][posY] != ModelValues.Wumpus &&
 		   model[posX][posY] != ModelValues.Hole) {
@@ -134,7 +135,6 @@ public class Algo {
 	 */
 	protected void updateModel(Observation o) {
 		int[] hPos = o.getHeroPosition();
-		System.out.println(hPos[0]+" "+hPos[1]);
 		model[hPos[0]][hPos[1]] = ModelValues.Safe;
 
 		if(hPos[0] > 0) {
