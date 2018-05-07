@@ -23,26 +23,26 @@ public class State {
 		
 		Random rnd = new Random(/*System.currentTimeMillis()*/);
 		do {
-			treasure[0] = rnd.nextInt(3);
-			treasure[1] = rnd.nextInt(3);
+			treasure[0] = rnd.nextInt(4);
+			treasure[1] = rnd.nextInt(4);
 		} while (treasure[0] == 0 && treasure[1] == 0);
 		
 		do {
-			hole1[0] = rnd.nextInt(3);
-			hole1[1] = rnd.nextInt(3);
+			hole1[0] = rnd.nextInt(4);
+			hole1[1] = rnd.nextInt(4);
 		} while ((hole1[0] == 0 && hole1[1] == 0) ||
 				(hole1[0] == treasure[0] && hole1[1] == treasure[1]));
 		
 		do {
-			hole2[0] = rnd.nextInt(3);
-			hole2[1] = rnd.nextInt(3);
+			hole2[0] = rnd.nextInt(4);
+			hole2[1] = rnd.nextInt(4);
 		} while ((hole2[0] == 0 && hole2[1] == 0) ||
 				(hole2[0] == treasure[0] && hole2[1] == treasure[1]) ||
 				(hole2[0] == hole1[0] && hole2[1] == hole1[1]));
 		
 		do {
-			wumpus[0] = rnd.nextInt(3);
-			wumpus[1] = rnd.nextInt(3);
+			wumpus[0] = rnd.nextInt(4);
+			wumpus[1] = rnd.nextInt(4);
 		} while ((wumpus[0] == 0 && wumpus[1] == 0) ||
 				(wumpus[0] == treasure[0] && wumpus[1] == treasure[1]) ||
 				(wumpus[0] == hole1[0] && wumpus[1] == hole1[1]) ||
