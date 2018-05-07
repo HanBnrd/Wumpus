@@ -9,6 +9,7 @@ public class Algo {
 	protected boolean[][] visited;
 	protected int gridSize;
 	protected PriorityQueue<State> toVisit;
+	protected boolean wumpusFound;
 
 	/**
 	 * Algo constructor
@@ -37,6 +38,7 @@ public class Algo {
 	 */
 	public String run(Problem pb, State init) {
 		boolean end = false;
+		boolean notAdded = false;
 		int time = 0;
 		String gameover = null;
 		toVisit.add(init);
@@ -45,7 +47,9 @@ public class Algo {
 			State currentState = toVisit.poll();
 			System.out.println("Hero position :(" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
 			time ++;
-
+			Observation obs = currentState.makeObservation();
+			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
+			
 			if (currentState.isTreasure()) {
 				gameover = "Treasure";
 				end = true;
@@ -59,13 +63,18 @@ public class Algo {
 				end = true;
 			}
 			else {
-				// Safe moves
-				Observation obs = currentState.makeObservation();
-				setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
 				updateModel(obs);
 				for (Actions act : Actions.values()) {
 					State next = pb.transition(currentState, act);
-					if (visited[next.hero[0]][next.hero[1]] == false) {
+					notAdded = true;
+					for(State s: toVisit) {
+						if(s.getHero()[0] == next.getHero()[0] && 
+						   s.getHero()[1] == next.getHero()[1] &&
+						   s.getCost() == next.getCost()) {
+							notAdded = false;
+						}
+					}
+					if (notAdded && visited[next.getHero()[0]][next.getHero()[1]] == false) {
 						this.setCost(next);
 						toVisit.add(next);
 					}
@@ -73,7 +82,7 @@ public class Algo {
 			}
 			System.out.println(toString());
 		}
-		String game = gameover + time;
+		String game = gameover + " | Time : "+time;
 		return game;
 	}
 
@@ -103,6 +112,7 @@ public class Algo {
 				}
 			}
 		}
+		currentState.wumpus = null;
 	}
 
 	/**
@@ -113,15 +123,12 @@ public class Algo {
 	 * @return the accurate value
 	 */
 	protected void chooseModelValue(Observation o, int posX, int posY) {
-		if(model[posX][posY] != ModelValues.Safe && 
-		   model[posX][posY] != ModelValues.Wumpus &&
-		   model[posX][posY] != ModelValues.Hole) {
+		if(model[posX][posY] != ModelValues.Safe) {
 		
 			boolean[] results = o.getObservations();
 				
 			if(results[0] && results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-					model[posX][posY] = ModelValues.Wumpus;
 					clearMaybeWumpus(o.getState());
 				} else {
 					model[posX][posY] = ModelValues.MaybeWH;
@@ -130,7 +137,6 @@ public class Algo {
 				model[posX][posY] = ModelValues.MaybeH;
 			} else if(results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-					model[posX][posY] = ModelValues.Wumpus;
 					clearMaybeWumpus(o.getState());
 				} else {
 					model[posX][posY] = ModelValues.MaybeW;
@@ -192,8 +198,8 @@ public class Algo {
 			break;
 		}
 		newState.setCost(cost);
-	}
-
+	}	
+	
 	/**
 	 * Set the cell as visited
 	 * @param x the cell abscissa

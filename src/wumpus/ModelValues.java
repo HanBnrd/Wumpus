@@ -6,7 +6,7 @@ public enum ModelValues {
 	MaybeW,
 	MaybeH,
 	MaybeWH,
-	Wumpus,
-	Hole,
+	/*Wumpus,
+	Hole,*/
 	WOrH;
 }
