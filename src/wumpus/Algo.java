@@ -111,18 +111,20 @@ public class Algo {
 				
 			if(results[0] && results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-					clearMaybeWumpus();
 					model[posX][posY] = ModelValues.Wumpus;
+					clearMaybeWumpus();
+				} else {
+					model[posX][posY] = ModelValues.MaybeWH;
 				}
-				model[posX][posY] = ModelValues.MaybeWH;
 			} else if(results[0]) {
 				model[posX][posY] = ModelValues.MaybeH;
 			} else if(results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-					clearMaybeWumpus();
 					model[posX][posY] = ModelValues.Wumpus;
+					clearMaybeWumpus();
+				} else {
+					model[posX][posY] = ModelValues.MaybeW;
 				}
-				model[posX][posY] = ModelValues.MaybeW;
 			} else {
 				model[posX][posY] = ModelValues.Safe;
 			}
@@ -213,7 +215,7 @@ public class Algo {
 
 		for (int i = 0; i < gridSize; i=i+1) {
 			for (int j = 0; j < gridSize; j=j+1) {
-				sb.append("" + model[i][j].name() + "\t");
+				sb.append("" + model[j][i].name() + "\t");
 			}
 			sb.append("\n");
 		}
