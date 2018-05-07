@@ -202,7 +202,7 @@ public class Algo {
 		sb.append("Visited : \n");
 		for (int i = 0; i < gridSize; i=i+1) {
 			for (int j = 0; j < gridSize; j=j+1) {
-				if (visited[i][j]) {
+				if (visited[j][i]) {
 					sb.append("X");
 				} else {
 					sb.append("-");
