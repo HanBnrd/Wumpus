@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class State {
 	protected int hero[], wumpus[], hole1[], hole2[], treasure[];
+	protected int cost;
 	protected boolean arrow;
 	protected Observation obs;
 	
@@ -16,6 +17,7 @@ public class State {
 		hole1 = new int[2];
 		hole2 = new int[2];
 		wumpus = new int[2];
+		cost = 1;
 		
 		Random rnd = new Random(/*System.currentTimeMillis()*/);
 		do {
@@ -63,7 +65,16 @@ public class State {
 	public void useArrow() {
 		this.arrow = false;
 	}
+	
+	public int getCost() {
+		return cost;
+	}
 
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+	
+	
 	/**
 	 * Copy constructor
 	 * @param s the state to copy
@@ -75,6 +86,7 @@ public class State {
 		this.wumpus = s.wumpus;
 		this.hero = s.hero.clone();
 		this.arrow = s.arrow;
+		this.cost = 999; //default cost
 	}
 	
 	public Observation makeObservation() {

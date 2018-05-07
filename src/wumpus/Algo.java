@@ -147,33 +147,17 @@ public class Algo {
 		}
 		
 		boolean[] results = o.getObservations();
-		if(results[0] || results[1]) {
-			boolean corner = false;
-			int[] heroPos = o.getHeroPosition();
-			//if the hero is in one corner
-			if((heroPos[0] == 0 && heroPos[1] == 0) ||
-			   (heroPos[0] == 0 && heroPos[1] == getGSize()-1) ||
-			   (heroPos[0] == getGSize()-1 && heroPos[1] == 0) ||
-			   (heroPos[0] == getGSize()-1 && heroPos[1] == getGSize()-1)) {
-				corner = true;
-			}
 			
-			if(results[0] && results[1]) {
-				if(corner) {
-					return ModelValues.WOrH;
-				}
-				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
-					return ModelValues.Wumpus;
-				}
-				return ModelValues.MaybeWH;
+		if(results[0] && results[1]) {
+			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+				return ModelValues.Wumpus;
 			}
-			if(results[0]) {
-				if(corner) {
-					//todo
-				}
-				return ModelValues.MaybeH;
-			}
-			//results[1] = true
+			return ModelValues.MaybeWH;
+		}
+		if(results[0]) {
+			return ModelValues.MaybeH;
+		}
+		if(results[1]) {
 			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
 				return ModelValues.Wumpus;
 			}
@@ -204,6 +188,34 @@ public class Algo {
 		if(hPos[1] < getGSize()-1) {
 			model[hPos[0]][hPos[1]+1] = chooseModelValue(o, hPos[0], hPos[1]+1);
 		}
+	}
+	
+	/**
+	 * Set the cost of a new state with respect to the model
+	 * @param newState the new state
+	 */
+	protected void setCost(State newState) {
+		int cost = 999;
+		int [] posHero = newState.getHero();
+		ModelValues mv = model[posHero[0]][posHero[1]];
+		switch (mv) {
+		case Safe:
+			cost = 1;
+			break;
+		case MaybeW:
+			cost = 5;
+			break;
+		case MaybeH:
+			cost = 10;
+			break;
+		case MaybeWH:
+			cost = 20;
+			break;
+		default:
+			cost = 999; //Death
+			break;
+		}
+		newState.setCost(cost);
 	}
 
 	/**
