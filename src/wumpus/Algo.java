@@ -135,6 +135,10 @@ public class Algo {
 	 * @return the accurate value
 	 */
 	protected ModelValues chooseModelValue(Observation o, int posX, int posY) {
+		if(model[posX][posY] == ModelValues.Safe) {
+			return ModelValues.Safe;
+		}
+		
 		boolean[] results = o.getObservations();
 		if(results[0] && results[1]) {
 			if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
