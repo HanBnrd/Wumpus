@@ -41,7 +41,7 @@ public class Algo {
 
 		while (!end) {
 			State currentState = toVisit.poll();
-			System.out.println("Hero position :(" + currentState.getHero()[0]+""+currentState.getHero()[1]+")");
+			System.out.println("Hero position :(" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
 			time ++;
 			Observation obs = currentState.makeObservation();
 			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
