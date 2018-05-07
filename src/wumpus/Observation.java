@@ -12,10 +12,12 @@ public class Observation {
 	 */
 	public Observation(State s) {
 		state = s;
-		if ((s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]+1) ||
+		
+		if (s.wumpus != null &&
+			((s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]+1) ||
 			(s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]-1) ||
 			(s.hero[0] == s.wumpus[0]+1 && s.hero[1] == s.wumpus[1]) ||
-			(s.hero[0] == s.wumpus[0]-1 && s.hero[1] == s.wumpus[1])) {
+			(s.hero[0] == s.wumpus[0]-1 && s.hero[1] == s.wumpus[1]))) {
 			this.smell = true;
 		}
 		else {
