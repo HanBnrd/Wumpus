@@ -9,7 +9,6 @@ public class Algo {
 	protected boolean[][] visited;
 	protected int gridSize;
 	protected PriorityQueue<State> toVisit;
-	protected boolean wumpusFound;
 
 	/**
 	 * Algo constructor
@@ -45,7 +44,7 @@ public class Algo {
 
 		while (!end) {
 			State currentState = toVisit.poll();
-			System.out.println("Hero position :(" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
+			System.out.println("Hero position : (" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
 			time ++;
 			Observation obs = currentState.makeObservation();
 			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
@@ -112,7 +111,10 @@ public class Algo {
 				}
 			}
 		}
-		currentState.wumpus = null;
+		currentState.killWumpus();
+		for (State s: toVisit) {
+			s.killWumpus();
+		}
 	}
 
 	/**
@@ -215,6 +217,29 @@ public class Algo {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Model :\t\t\t\t\tVisited :\n");
+		for (int i = 0; i < gridSize; i=i+1) {
+			for (int j = 0; j < gridSize; j=j+1) {
+				sb.append("" + model[j][i].name() + "\t");
+			}
+			sb.append("\t");
+			for (int j = 0; j < gridSize; j=j+1) {
+				sb.append("" + visited[j][i] + "\t");
+			}
+			sb.append("\n");
+		}
+		sb.append("---------------------------------------------------------------------");
+		return sb.toString();
+	}
+	
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	public String oldToString() {
+		StringBuilder sb = new StringBuilder();
+		
 		sb.append("Visited : \n");
 		for (int i = 0; i < gridSize; i=i+1) {
 			for (int j = 0; j < gridSize; j=j+1) {
@@ -235,7 +260,6 @@ public class Algo {
 			}
 			sb.append("\n");
 		}
-
 		return sb.toString();
 	}
 

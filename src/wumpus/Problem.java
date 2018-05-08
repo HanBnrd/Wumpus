@@ -11,8 +11,8 @@ public class Problem {
 	public State transition(State state, Actions act) {
 		State next = new State(state);
 		switch(act) {
-		case Shoot:
-			next.wumpus = null;
+//		case Shoot:
+//			next.wumpus = null;
 //		case ShootUp:
 //			if (next.wumpus != null && next.wumpus[0] == next.hero[0] && next.wumpus[1]>next.hero[1]) {
 //				next.wumpus = null;

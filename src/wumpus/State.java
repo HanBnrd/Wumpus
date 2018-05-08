@@ -139,4 +139,9 @@ public class State {
 		sb.append("Hero : ("+getHero()[0]+","+getHero()[1]+")");
 		return sb.toString();
 	}
+
+	public void killWumpus() {
+		this.wumpus = null;
+		
+	}
 }
