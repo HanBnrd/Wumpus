@@ -19,7 +19,7 @@ public class Main {
 				totalHole++;
 			}
 		}
-		System.out.println("Number of wins : "+totalWin+
+		System.out.println("Number of wins : "+totalWin+", with a mean time of "+treasureTime/totalWin+
 						   "\nNumber of deaths from holes : "+totalHole+
 						   "\nNumber of deaths from Wumpus : "+totalWumpus);
 		//System.out.println(result);
