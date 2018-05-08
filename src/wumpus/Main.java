@@ -2,10 +2,12 @@ package wumpus;
 
 public class Main {
 
+	protected static int NBTHROWS = 100000;
+	
 	public static void main(String[] args) {
 		String[] result;
 		int treasureTime = 0, totalWin = 0, totalHole = 0, totalWumpus = 0;
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < NBTHROWS; i++) {
 			Algo algo = new Algo();
 			State s = new State();
 			Problem pb = new Problem();
@@ -19,7 +21,8 @@ public class Main {
 				totalHole++;
 			}
 		}
-		System.out.println("Number of wins : "+totalWin+", with a mean time of "+treasureTime/totalWin+
+		System.out.println("Number of throws : "+NBTHROWS+ 
+						   "\nNumber of wins : "+totalWin+", with a mean time of "+treasureTime/totalWin+
 						   "\nNumber of deaths from holes : "+totalHole+
 						   "\nNumber of deaths from Wumpus : "+totalWumpus);
 		//System.out.println(result);
