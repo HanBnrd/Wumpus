@@ -12,7 +12,7 @@ public class Observation {
 	 */
 	public Observation(State s) {
 		state = s;
-		System.out.println("Is Wumpus dead ? " + (s.wumpus == null));
+		//System.out.println("Is Wumpus dead ? " + (s.wumpus == null));
 		if (s.wumpus != null &&
 			((s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]+1) ||
 			(s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]-1) ||

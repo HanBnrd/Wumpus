@@ -35,7 +35,7 @@ public class Algo {
 	 * Main method of the Algo class
 	 * @return
 	 */
-	public String run(Problem pb, State init) {
+	public String[] run(Problem pb, State init) {
 		boolean end = false;
 		boolean notAdded = false;
 		int time = 0;
@@ -44,7 +44,7 @@ public class Algo {
 
 		while (!end) {
 			State currentState = toVisit.poll();
-			System.out.println("Hero position : (" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
+			//System.out.println("Hero position : (" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
 			time ++;
 			Observation obs = currentState.makeObservation();
 			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
@@ -79,9 +79,9 @@ public class Algo {
 					}
 				}
 			}
-			System.out.println(toString());
+			//System.out.println(toString());
 		}
-		String game = gameover + " | Time : "+time;
+		String game[] = {gameover,""+time};
 		return game;
 	}
 
