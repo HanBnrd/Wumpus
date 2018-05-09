@@ -3,13 +3,16 @@ package wumpus;
 import java.util.Random;
 
 public class State {
+	
+	public static int GRIDSIZE = 4;
 	protected int hero[], wumpus[], hole1[], hole2[], treasure[];
 	protected int cost;
 	protected boolean arrow;
 	protected Observation obs;
 	
 	/**
-	 * Default, first state
+	 * Constructor of the first state
+	 * Sets a random position for every element in the game excepted the hero
 	 */
 	public State() {
 		hero = new int[2];
@@ -21,7 +24,7 @@ public class State {
 		wumpus = new int[2];
 		cost = 1;
 		
-		Random rnd = new Random(/*System.currentTimeMillis()*/);
+		Random rnd = new Random();
 		do {
 			treasure[0] = rnd.nextInt(4);
 			treasure[1] = rnd.nextInt(4);
@@ -51,7 +54,21 @@ public class State {
 		this.arrow = true;
 	}
 	
-	/******* Getters - setters *******/
+	/**
+	 * Copy constructor
+	 * @param s the state to copy
+	 */
+	public State(State s) {
+		this.hole1 = s.hole1;
+		this.hole2 = s.hole2;
+		this.treasure = s.treasure;
+		this.wumpus = s.wumpus;
+		this.hero = s.hero.clone();
+		this.arrow = s.arrow;
+		this.cost = 999; //default cost
+	}
+	
+	/******* Getters - Setters *******/
 	public int[] getHero() {
 		return hero;
 	}
@@ -93,38 +110,32 @@ public class State {
 		this.cost = cost;
 	}
 	
+	public void killWumpus() {
+		this.wumpus = null;	
+	}
+	/*********************************/
 	
 	/**
-	 * Copy constructor
-	 * @param s the state to copy
-	 */
-	public State(State s) {
-		this.hole1 = s.hole1;
-		this.hole2 = s.hole2;
-		this.treasure = s.treasure;
-		this.wumpus = s.wumpus;
-		this.hero = s.hero.clone();
-		this.arrow = s.arrow;
-		this.cost = 999; //default cost
-	}
-	
-	public Observation makeObservation() {
-		return new Observation(this);
-	}
-	
-	/**
-	 * Checks if the state is final or not
-	 * @return true if the hero is dead or if he has found the treasure, false otherwise
+	 * Checks if the hero is dead by the Wumpus
+	 * @return true if he is, false otherwise
 	 */
 	public boolean isWumpus() {
 		return getWumpus() != null && getHero()[0] == getWumpus()[0] && getHero()[1] == getWumpus()[1];
 	}
 	
+	/**
+	 * Checks if the hero is dead because of a hole
+	 * @return true if he is, false otherwise
+	 */
 	public boolean isHole() {
 		return (getHero()[0] == getHole1()[0] && getHero()[1] == getHole1()[1]) ||
 			   (getHero()[0] == getHole2()[0] && getHero()[1] == getHole2()[1]);
 	}
 	
+	/**
+	 * Checks if the hero wins the game
+	 * @return true if he does, false otherwise
+	 */
 	public boolean isTreasure() {
 		return getHero()[0] == getTreasure()[0] && getHero()[1] == getTreasure()[1];
 	}
@@ -137,10 +148,5 @@ public class State {
 		sb.append("Treasure : ("+ getTreasure()[0]+","+getTreasure()[1]+")\n");
 		sb.append("Hero : ("+getHero()[0]+","+getHero()[1]+")");
 		return sb.toString();
-	}
-
-	public void killWumpus() {
-		this.wumpus = null;
-		
 	}
 }

@@ -43,7 +43,8 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		boolean numerousThrows = false; //false for one throw, true for 100,000 throws (it also changes the printed values)
+		boolean numerousThrows = true;
+		//false for one throw, true for 100,000 throws (it also changes the printed values)
 		new Main(numerousThrows);
 	}
 }
