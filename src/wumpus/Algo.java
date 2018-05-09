@@ -9,14 +9,16 @@ public class Algo {
 	protected boolean[][] visited;
 	protected int gridSize;
 	protected PriorityQueue<State> toVisit;
+	protected boolean numerousThrows;
 
 	/**
 	 * Algo constructor
 	 * Grid of 4x4 by default
 	 * Start position of (0;0) by default
 	 */
-	public Algo() {
+	public Algo(boolean severalThrows) {
 		gridSize = 4;
+		numerousThrows = severalThrows;
 
 		model = new ModelValues[gridSize][gridSize];
 		for (int i = 0; i < gridSize; i=i+1) {
@@ -44,7 +46,8 @@ public class Algo {
 
 		while (!end) {
 			State currentState = toVisit.poll();
-			//System.out.println("Hero position : (" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
+			if(!isNumerousThrows())
+				System.out.println("Hero position : (" + currentState.getHero()[0]+","+currentState.getHero()[1]+")");
 			time ++;
 			Observation obs = currentState.makeObservation();
 			setVisited(obs.getHeroPosition()[0], obs.getHeroPosition()[1]);
@@ -79,7 +82,8 @@ public class Algo {
 					}
 				}
 			}
-			//System.out.println(toString());
+			if(!isNumerousThrows())
+				System.out.println(toString());
 		}
 		String game[] = {gameover,""+time};
 		return game;
@@ -214,6 +218,10 @@ public class Algo {
 			}
 		}
 	}
+	
+	protected boolean isNumerousThrows() {
+		return numerousThrows;
+	}
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -232,35 +240,4 @@ public class Algo {
 		sb.append("---------------------------------------------------------------------");
 		return sb.toString();
 	}
-	
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public String oldToString() {
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("Visited : \n");
-		for (int i = 0; i < gridSize; i=i+1) {
-			for (int j = 0; j < gridSize; j=j+1) {
-				if (visited[j][i]) {
-					sb.append("X");
-				} else {
-					sb.append("-");
-				}
-			}
-			sb.append("\n");
-		}
-
-		sb.append("\nModel :\n");
-
-		for (int i = 0; i < gridSize; i=i+1) {
-			for (int j = 0; j < gridSize; j=j+1) {
-				sb.append("" + model[j][i].name() + "\t");
-			}
-			sb.append("\n");
-		}
-		return sb.toString();
-	}
-
 }

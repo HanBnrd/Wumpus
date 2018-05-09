@@ -131,7 +131,6 @@ public class State {
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("State :\n");
 		sb.append("Hole 1 : ("+ getHole1()[0]+","+getHole1()[1]+")\n");
 		sb.append("Hole 2 : ("+ getHole2()[0]+","+getHole2()[1]+")\n");
 		sb.append("Wumpus : ("+ getWumpus()[0]+","+getWumpus()[1]+")\n");
