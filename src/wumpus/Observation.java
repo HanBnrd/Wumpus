@@ -12,7 +12,7 @@ public class Observation {
 	 */
 	public Observation(State s) {
 		state = s;
-		System.out.println("Is Wumpus dead ? " + (s.wumpus == null));
+		//System.out.println("Is Wumpus dead ? " + (s.wumpus == null));
 		if (s.wumpus != null &&
 			((s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]+1) ||
 			(s.hero[0] == s.wumpus[0] && s.hero[1] == s.wumpus[1]-1) ||
@@ -47,10 +47,6 @@ public class Observation {
 		return heroPosition;
 	}
 	
-	public State getState() {
-		return state;
-	}
-	
 	/**
 	 * Gets the observations
 	 * @return a boolean array of 2 values : if there is air, if there is smell
@@ -58,5 +54,13 @@ public class Observation {
 	public boolean[] getObservations() {
 		boolean obs[] = {this.air, this.smell};
 		return obs;
+	}
+	
+	/**
+	 * Getter of the state
+	 * @return the State instance
+	 */
+	public State getState() {
+		return state;
 	}
 }
