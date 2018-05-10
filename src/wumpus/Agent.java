@@ -70,7 +70,9 @@ public class Agent {
 				
 			if(results[0] && results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+					//the Wumpus is here, so we kill him
 					clearMaybeWumpus(o.getState());
+					model[posX][posY] = ModelValues.Safe; // the square is now cleared
 				} else {
 					model[posX][posY] = ModelValues.MaybeWH;
 				}
@@ -78,7 +80,9 @@ public class Agent {
 				model[posX][posY] = ModelValues.MaybeH;
 			} else if(results[1]) {
 				if(model[posX][posY] == ModelValues.MaybeW || model[posX][posY] == ModelValues.MaybeWH) {
+					//the Wumpus is here, so we kill him
 					clearMaybeWumpus(o.getState());
+					model[posX][posY] = ModelValues.Safe; // the square is now cleared
 				} else {
 					model[posX][posY] = ModelValues.MaybeW;
 				}
