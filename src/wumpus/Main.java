@@ -43,8 +43,16 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		boolean numerousThrows = true;
-		//false for one throw, true for 100,000 throws (it also changes the printed values)
-		new Main(numerousThrows);
+		if(args.length != 1) {
+			System.out.println("Use :\n \"java -jar wumpus.jar y\" for several throws\n \"java -jar wumpus.jar n\" for one detailed throw");
+		} else {
+			//false for one throw, true for 100,000 throws (it also changes the printed values)
+			boolean numerousThrows;
+			if(args[0].equals("y"))
+				numerousThrows = true;
+			else
+				numerousThrows = false;
+			new Main(numerousThrows);
+		}
 	}
 }
