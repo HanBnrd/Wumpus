@@ -1,9 +1,9 @@
 # Wumpus #
 
 **Title:** Wumpus  
-**Keywords:** Intelligent agent, game  
+**Keywords:** intelligent agent, game  
 **Version:** 0.1  
-**Date:** may 2018  
+**Date:** May 2018  
 **Authors:** Mélissa Bossou, Justinien Ghorra, Johann Benerradi  
 **Web site:** [UFR Mathématiques et Informatique](http://mathinfo.univ-lorraine.fr)  
 **Platform:** Java  
@@ -15,7 +15,7 @@ Intelligent agent game
 
 
 **Requires:**  
-  - [Java](https://www.oracle.com/fr/java/index.html)  
+  - [Java](https://www.oracle.com/java/index.html)  
 
 
 *(c) Université de Lorraine - Nancy*
